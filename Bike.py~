@@ -1,0 +1,12 @@
+import numpy as np
+
+class Bike(object):
+
+	def __init__(self):
+		self.wheel_1=np.zeros(2)
+		self.wheel_2=np.zeros(2)
+		self.mass_1 =np.zero(2)
+		self.mass_2 =np.zero(2)
+	
+	def gen_bike(self):
+		

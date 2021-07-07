@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import numpy as np
 
-from dist_fl_bk import get_gr_bk_dist 
+#from dist_fl_bk import get_gr_bk_dist 
 from floor import Floor   	    
 from bike  import Bike
-#from solver import RuKu4
+from solver import RuKu4
 
 def main():
     ground = Floor() # Create the ground   

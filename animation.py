@@ -1,6 +1,6 @@
 import time
 import numpy as np
-import scipy as sc
+#import scipy as sc
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.patches as patches
@@ -45,12 +45,11 @@ class Render(object):
         #create circles for masses ORIGINAL 1.8, touched by Kevin 
         xy_out = -10.0
         scl = self.scale
-        self.cir_mass1 = self.ax.plot(xy_out, xy_out, 'ro', ms = 6.0 * self.bike.bike_rad[0] * scl, mew = 1.0, c = 'red', alpha = 0.4)[0]
-        self.cir_mass2 = self.ax.plot(xy_out, xy_out, 'ro', ms = 6.0 * self.bike.bike_rad[1] * scl, mew = 1.0, c = 'red', alpha = 0.4)[0]
-        
+        self.cir_mass1 = self.ax.plot(xy_out, xy_out, 'ro', ms = 6.0 * self.bike.bike_rad[0] * scl, mew = 1.0, alpha = 0.4)[0]
+        self.cir_mass2 = self.ax.plot(xy_out, xy_out, 'ro', ms = 6.0 * self.bike.bike_rad[1] * scl, mew = 1.0, alpha = 0.4)[0] 
         #create wheels    
-        self.cir_wheel1 = self.ax.plot(xy_out, xy_out, 'ro', ms = 5.65 * self.bike.bike_rad[2] * scl, mew = 3.0, c = 'blue', alpha = 0.4)[0]
-        self.cir_wheel2 = self.ax.plot(xy_out, xy_out, 'ro', ms = 5.65 * self.bike.bike_rad[3] * scl, mew = 3.0, c = 'blue', alpha = 0.4)[0] 
+        self.cir_wheel1 = self.ax.plot(xy_out, xy_out, 'bo', ms = 5.65 * self.bike.bike_rad[2] * scl, mew = 3.0, alpha = 0.4)[0]
+        self.cir_wheel2 = self.ax.plot(xy_out, xy_out, 'bo', ms = 5.65 * self.bike.bike_rad[3] * scl, mew = 3.0, alpha = 0.4)[0] 
                                                                                         
         #create springs between masses (mN) and wheels (wN)
         self.line_m1w1 = self.ax.plot(0.0, 0.0, lw = 1.0, color = 'black', alpha = 0.7)[0]
@@ -75,14 +74,14 @@ class Render(object):
         self.nframes = nrow  #number of frames for moving 1 bike         
         for i in range(0, self.nframes):
             self.time = np.append(self.time, i)
-            self.x_mass1 = np.append(self.x_mass1, bike.traj[i, 5] * scl) 
-            self.y_mass1 = np.append(self.y_mass1, bike.traj[i, 6] * scl)
-            self.x_mass2 = np.append(self.x_mass2, bike.traj[i, 7] * scl) 
-            self.y_mass2 = np.append(self.y_mass2, bike.traj[i, 8] * scl) 
-            self.x_wheel1 = np.append(self.x_wheel1, bike.traj[i, 1] * scl) 
-            self.y_wheel1 = np.append(self.y_wheel1, bike.traj[i, 2] * scl) 
-            self.x_wheel2 = np.append(self.x_wheel2, bike.traj[i, 3] * scl) 
-            self.y_wheel2 = np.append(self.y_wheel2, bike.traj[i, 4] * scl)   
+            self.x_mass1 = np.append(self.x_mass1, bike.traj[i, 1] * scl) 
+            self.y_mass1 = np.append(self.y_mass1, bike.traj[i, 2] * scl)
+            self.x_mass2 = np.append(self.x_mass2, bike.traj[i, 3] * scl) 
+            self.y_mass2 = np.append(self.y_mass2, bike.traj[i, 4] * scl) 
+            self.x_wheel1 = np.append(self.x_wheel1, bike.traj[i, 5] * scl) 
+            self.y_wheel1 = np.append(self.y_wheel1, bike.traj[i, 6] * scl) 
+            self.x_wheel2 = np.append(self.x_wheel2, bike.traj[i, 7] * scl) 
+            self.y_wheel2 = np.append(self.y_wheel2, bike.traj[i, 8] * scl)   
 
         #create text objects
         self.time_text = self.ax.text(2.5, -20.0, '', fontsize = 13) 

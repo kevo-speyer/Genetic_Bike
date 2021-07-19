@@ -48,7 +48,10 @@ def bk_gd_int(bike,ground):
         x_min = xw - rad    
         assert( x_max >= 0 )
         assert( x_min >= 0 )
-        
+
+        if x_max >= ground.path_length: # Arrived to finish line
+            bike.path_completed = True
+            return 1 #End solving algorithm run, return 1
         
         # Select the possible interacting segments
         i_min = int( x_min / float(path_detail))    
@@ -67,12 +70,12 @@ def bk_gd_int(bike,ground):
         #For those segments, calculate minimal distance
         for i in range(i_min,i_max+1):
             # print i #FOR DEBUGGING PURP
-            nx = nor_ver[i,0]                                                                                      
+            nx = nor_ver[i,0]
             ny = nor_ver[i,1]
             px = par_ver[i,0]
             py = par_ver[i,1]
             xg = fl_coor[i,0]
-            yg = fl_coor[i,1] 
+            yg = fl_coor[i,1]
             
             #calculate minimal distance between line and point 
             [dist, x_int, y_int ] = dist_point_line(nx,ny,px,py,xg,yg,xw,yw)
@@ -88,21 +91,23 @@ def bk_gd_int(bike,ground):
                 dist_edge = np.sqrt( ( xw - fl_coor[i,0] )**2 +( yw - fl_coor[i,1] )**2 )
                 x_int = fl_coor[i,0]
                 y_int = fl_coor[i,1]
-                px = 1. #Set new versor for the edges. Not ideal choise, see if it works
-                py = 0. # OTHER idea would be to make an average of segments
-                nx = 0.
-                ny = 1. 
+                nx = (xw - fl_coor[i,0]) / dist_edge
+                ny = (yw - fl_coor[i,1]) / dist_edge
+                px = ny #Set new versor for the edges. Not ideal choise, see if it works
+                py = -nx # OTHER idea would be to make an average of segments
+                dist = dist_edge
             # print 'edge distance = ', dist_edge 
-            elif x_int > fl_coor[i+1,0]:
-                # Minimum distance at right edge of the segment
-                # print 'Evaluate right Edge in segment ',fl_coor[i,0],fl_coor[i+1,0]
-                dist_edge = np.sqrt( ( xw - fl_coor[i+1,0] )**2 +( yw - fl_coor[i+1,1] )**2 ) 
-                x_int = fl_coor[i+1,0]
-                y_int = fl_coor[i+1,1]
-                px = 1.    #Set new versor for the edges. Not ideal choise, see if it works
-                py = 0.    # OTHER idea would be to make an average of segments
-                nx = 0.
-                ny = 1.  
+            elif x_int > fl_coor[i+1,0] if i+1<ground.path_dim else ground.path_length:
+                continue # edge already taken into account in previous elif
+            #    # Minimum distance at right edge of the segment
+            #    # print 'Evaluate right Edge in segment ',fl_coor[i,0],fl_coor[i+1,0]
+            #    dist_edge = np.sqrt( ( xw - fl_coor[i+1,0] )**2 +( yw - fl_coor[i+1,1] )**2 ) 
+            #    x_int = fl_coor[i+1,0]
+            #    y_int = fl_coor[i+1,1]
+            #    px = 1.    #Set new versor for the edges. Not ideal choise, see if it works
+            #    py = 0.    # OTHER idea would be to make an average of segments
+            #    nx = 0.
+            #    ny = 1.  
             # print 'edge distance = ', dist_edge
             
             dist = dist - rad #clalculates distance between contour of object and fround	
@@ -119,8 +124,7 @@ def bk_gd_int(bike,ground):
                 #Change normal direction of velocity
                 norm_vel = sum( vel_tmp * np.array([nx,ny] )) # dot product
                 par_vel = sum( vel_tmp * np.array([px,py] ))  #dot product
-                vel_tmp = par_vel * np.array([px,py]) - damp* norm_vel * np.array([nx,ny])#Update Velocity. dam
-                #damp is to take energy away in a collison
+                vel_tmp = par_vel * np.array([px,py]) - damp* abs(norm_vel) * np.array([nx,ny])                #damp is to take energy away in a collison
                 bike.bike_vel[elmt,:] = vel_tmp # Give it to bike
                 # Move wheel out of ground  
                 bike.bike_pos[elmt,:] += np.array([nx,ny]) * (-dist)

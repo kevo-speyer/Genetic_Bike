@@ -170,7 +170,7 @@ def Euler(bike1,ground):
     if hasattr(bike1,'traj'):
         return
     tmax=20.0
-    n=1500
+    n=2500
     dt=tmax/float(n-1)
     traj=np.zeros([n,9])
     nrow=-1
@@ -180,25 +180,25 @@ def Euler(bike1,ground):
         if any([bike1.bike_pos[i_el,0] < 0 for i_el in range(4)]):
             err = 1 # Stop moving if x<0 for any coordinate
         
-        for i_el in range(4):
-            assert( bike1.bike_pos[i_el,0] >0 )  
+        #for i_el in range(4):
+        #    assert( bike1.bike_pos[i_el,0] >0 )  
         
         force(bike1)
         
-        for i_el in range(4):
-            assert( bike1.bike_pos[i_el,0] >0 )  
+        #for i_el in range(4):
+        #    assert( bike1.bike_pos[i_el,0] >0 )  
         
         err = bk_gd_int(bike1,ground)
         if (err == 1):
             move = 0 # Stop moving if head hits ground
         
-        for i_el in range(4):
-            assert( bike1.bike_pos[i_el,0] >0 )  
+        #for i_el in range(4):
+        #    assert( bike1.bike_pos[i_el,0] >0 )  
         
         bike1.bike_vel[:,:] += bike1.bike_acc[:,:] * dt
         
-        for i_el in range(4):
-            assert( bike1.bike_pos[i_el,0] >0 )  
+        #for i_el in range(4):
+        #    assert( bike1.bike_pos[i_el,0] >0 )  
         
         bike1.bike_pos[:,:] += bike1.bike_vel[:,:] * dt + .5* bike1.bike_acc[:,:] * dt**2
         if any([bike1.bike_pos[i_el,0] < 0 for i_el in range(4)]):

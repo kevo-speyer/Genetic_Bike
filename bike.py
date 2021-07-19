@@ -52,9 +52,9 @@ class Bike(object):
         
     def _gen_rand_bike(self):
         #This method should generate a random bike
-        box_size = 5. 
+        box_size = 10. 
         y_skin = 5.
-        x_skin = 10.
+        x_skin = 5.
         mass_handicap = 0.1
         sprng_hdcp = 250. #ORI 50.
         mass_mag = 5.
@@ -71,7 +71,7 @@ class Bike(object):
         
         self.bike_mass = np.array([mass_handicap + mass_mag*np.random.random() for _ in range(4)])
         
-        rads = [np.sqrt(m/(np.pi*rho)) for m, rho in zip(self.bike_mass,dens)]
+        rads = [np.sqrt(m/(np.pi*rho)) for m, rho in zip(self.bike_mass,self.dens)]
         self.bike_rad = np.array(rads)
         
         #Set spring constant and l0
@@ -82,8 +82,9 @@ class Bike(object):
         #This method should generate a specific bike, given by the genetic algorithm 
         self.bike_vel = np.array([np.zeros(2),np.zeros(2),np.zeros(2),np.zeros(2)])
         self.bike_acc = np.array([np.zeros(2),np.zeros(2),np.zeros(2),np.zeros(2)])
+        new_bike_pos.clip(2,15)
         self.bike_pos = new_bike_pos
-        
+         
         self.init_pos = deepcopy(self.bike_pos)
         	
         self.bike_mass = new_bike_mass

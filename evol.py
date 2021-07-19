@@ -3,6 +3,7 @@ import math
 import numpy as np
 from bike import Bike
 from random import sample
+from copy import deepcopy
 
 def next_gen(bike_list,survivor_frac=0.2, n_crosses=20, n_mutations=20):
     bike_list = selection(bike_list,survivor_frac)
@@ -38,9 +39,9 @@ def mutations(bike_list, n_mutations=20):
         new_bike_attrs = {}
         attrs = ['bike_mass','init_pos','k_sp']
         for attr in attrs:
-            new_bike_attrs[attr] = getattr(bike, attr)
+            new_bike_attrs[attr] = deepcopy(getattr(bike, attr))
         mut_attr = sample(attrs,1).pop()
-        new_bike_attrs[mut_attr] *=  .5+np.random.random()
+        new_bike_attrs[mut_attr] *= .5+np.random.random()
         new_bike = Bike(
                 pos=new_bike_attrs['init_pos'], 
                 mass=new_bike_attrs['bike_mass'], 

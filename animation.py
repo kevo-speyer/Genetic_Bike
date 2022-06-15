@@ -1,6 +1,5 @@
 import time
 import numpy as np
-#import scipy as sc
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import matplotlib.patches as patches
@@ -20,7 +19,7 @@ class Render(object):
 	
         #draw canvas, set defaults, output text
         self.fig = plt.figure()
-        self.fig.suptitle('   ICTP 2016, GROUP 3', fontsize = 14) #, fontweight = 'bold')
+        self.fig.suptitle(' Evolutionary Algorithm', fontsize = 14) #, fontweight = 'bold')
         self.ax = self.fig.add_subplot(111, aspect = 'equal', autoscale_on = False, xlim = (0.0, 100.0), ylim = (-30.0, 70.0))
         self.ax.set_title('The Genetic Bike')
         #self.ax.add_patch(patches.Rectangle((60.0, 45.0), 38, 23, fill = False, linewidth = 1.0))
@@ -107,7 +106,7 @@ class Render(object):
         xmin, xmax = self.ax.get_xlim()
         if self.x_wheel1[itime] > self.x_wheel2[itime]: x_wheel_max = self.x_wheel1[itime]
         else: x_wheel_max = self.x_wheel2[itime]
-
+        
         if x_wheel_max > (xmax - 10.0): 
             self.ax.set_xlim((30.0 + xmin), (30.0 + xmax))
             xmin, xmax = self.ax.get_xlim()
@@ -116,6 +115,19 @@ class Render(object):
             self.bike_text.set_position((75.0 + xmin, -27.0))
             self.ax.figure.canvas.draw()
  
+        
+        ymin, ymax = self.ax.get_ylim()
+        y_wheel_min,y_wheel_max = sorted([self.y_wheel1[itime],self.y_wheel2[itime]])
+
+        if y_wheel_min < ymin+10: 
+            self.ax.set_ylim((-30.0 + ymin), (-30 + ymax))
+            ymin, ymax = self.ax.get_ylim()
+            self.ax.figure.canvas.draw()
+        elif y_wheel_max > ymax-10: 
+            self.ax.set_ylim((+30.0 + ymin), (+30 + ymax))
+            ymin, ymax = self.ax.get_ylim()
+            self.ax.figure.canvas.draw()
+
         #ground update
         self.line.set_data(self.x_line, self.y_line)
         

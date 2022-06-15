@@ -5,7 +5,7 @@ from bike  import Bike
 
 d_prox = 0.1 # Defines the distance at which the torque is ON
 f_torq = 10.0 # Defines the force to be aplied to the wheel if its proximate to the ground
-damp = 0.3  # Defines how much energy will be conserved in the collison ground-wheel: 
+damp = 0.1  # Defines how much energy will be conserved in the collison ground-wheel: 
 		 #0 is total loss of energy, 1 is conservation of energy 
 		#MUST BE BETWEEN 0 and 1 ( do you even physics?! )
 

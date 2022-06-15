@@ -5,7 +5,6 @@ from floor import Floor
 from bike import Bike
 from bike_gr_int import bk_gd_int
 from model import force 
-#from grav_force import grav_force as force
 
 
 
